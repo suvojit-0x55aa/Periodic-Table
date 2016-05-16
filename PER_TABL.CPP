@@ -537,13 +537,9 @@ int main()
 				if(key==0)
 					key=getch();
 				if(key==72)
-					ch--;
+					ch = (ch-1)%3;
 				if(key==80)
-					ch++;
-				if(ch>2)
-					ch=0;
-				if(ch<0)
-					ch=2;
+					ch = (ch+1)%3;
 			}
 			for(int i=0;i<3;++i)
 			{
