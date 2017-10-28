@@ -16,16 +16,11 @@ class Element
 
 	  void get_E_config()
 	  {
-		  cout<<"Enter Electronic Coniguration (enter zero to terminate) "<<endl;
-		  /*for(int i=0;i<19;++i)
-		  {
-			  E_config[i]=0;
-		  }*/
+		  cout<<"Enter Electronic Configuration (enter zero to terminate) "<<endl;
 		  for(int i=0;i<19;++i)
 		  {
 			  int temp;
 			  cout<<sub_shell[i];
-			  //puts(sub_shell[i]);
 			  cin>>temp;
 			  if(temp==0)
 				  break;
