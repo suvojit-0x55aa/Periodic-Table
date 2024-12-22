@@ -1,3 +1,13 @@
+/*
+ * CHEM_DBA.CPP - Chemical Database Application
+ * 
+ * This program implements a chemical element database system that allows users to:
+ * - Store and manage chemical element information
+ * - Handle electronic configurations and oxidation states
+ * - Display elements in a periodic table format
+ * - Save element data to binary files
+ */
+
 #include<conio.h>
 #include<fstream.h>
 #include<process.h>
@@ -8,24 +18,20 @@
 class Element
 {
    protected:
-
+      // Basic element properties
       char Name[20],Symbol[3],Category[15];
       int Group,Period,At_no,E_config[19],O_state[8];
       float M_point,B_point,A_mass,E_negativity;
-      char sub_shell[19][3];
+      char sub_shell[19][3];  // Stores electron subshell labels (1s, 2s, etc.)
 
 	  void get_E_config()
 	  {
+		  // Gets electronic configuration from user input
 		  cout<<"Enter Electronic Coniguration (enter zero to terminate) "<<endl;
-		  /*for(int i=0;i<19;++i)
-		  {
-			  E_config[i]=0;
-		  }*/
 		  for(int i=0;i<19;++i)
 		  {
 			  int temp;
 			  cout<<sub_shell[i];
-			  //puts(sub_shell[i]);
 			  cin>>temp;
 			  if(temp==0)
 				  break;
@@ -136,45 +142,50 @@ class Element
 
 class show_in_table:public Element
 {
-	int xpos,ypos,catcol;
-public:
-	show_in_table()
-	{
-		xpos=ypos=catcol=0;
-	}
-	void drawtotable()
-	{
-		//draw to default position in the table
-	}
-	void drawtotable(int x,int y)
-	{
-		//draw at any entered pos (x,y)
-	}
-	void gettabdata()
-	{
-		get_E_info();
-		cout<<"Enter Top left box x position (if this is not your part just enter 0)"<<endl;
-		cin>>xpos;
-		cout<<"Enter Top left box y position (if this is not your part just enter 0)"<<endl;
-		cin>>ypos;
-		cout<<"Enter Box Color "<<endl;
-		cout<<"BLACK          0\nBLUE           1\nGREEN          2\n"
-		    <<"CYAN           3\nRED            4\nMAGENTA        5\nBROWN          6\n"
-		    <<"LIGHTGRAY      7\nDARKGRAY       8\nLIGHTBLUE      9\nLIGHTGREEN    10\n"
-		    <<"LIGHTCYAN     11\nLIGHTRED      12\nLIGHTMAGENTA  13\nYELLOW        14\nWHITE         15"<<endl;
-		cin>>catcol;
-	}
-}substance[108];
+	private:
+		int xpos;    // X coordinate for table display
+		int ypos;    // Y coordinate for table display
+		int catcol;  // Color code for element category
+
+	public:
+		show_in_table()
+		{
+			xpos=ypos=catcol=0;
+		}
+		void drawtotable()
+		{
+			//draw to default position in the table
+		}
+		void drawtotable(int x,int y)
+		{
+			//draw at any entered pos (x,y)
+		}
+		void gettabdata()
+		{
+			get_E_info();
+			cout<<"Enter Top left box x position (if this is not your part just enter 0)"<<endl;
+			cin>>xpos;
+			cout<<"Enter Top left box y position (if this is not your part just enter 0)"<<endl;
+			cin>>ypos;
+			cout<<"Enter Box Color "<<endl;
+			cout<<"BLACK          0\nBLUE           1\nGREEN          2\n"
+			    <<"CYAN           3\nRED            4\nMAGENTA        5\nBROWN          6\n"
+			    <<"LIGHTGRAY      7\nDARKGRAY       8\nLIGHTBLUE      9\nLIGHTGREEN    10\n"
+			    <<"LIGHTCYAN     11\nLIGHTRED      12\nLIGHTMAGENTA  13\nYELLOW        14\nWHITE         15"<<endl;
+			cin>>catcol;
+		}
+}substance[108];  // Array to store all elements (max 108 elements)
 
 int main()
 {
 	clrscr();
 
-	//variable declaration
+	// File handling for chemical database
 	fstream chemstorage;
-	int elmnew=0;
-	char notdone='y';
-	//char astr[5],fname[10];
+	int elmnew=0;                // Counter for number of elements entered
+	char notdone='y';            // Control variable for input loop
+	
+	// Open binary file for storing element data
 	chemstorage.open("CBASE.bin",ios::out|ios::binary|ios::app);
 	if(!chemstorage)
 	{
@@ -182,6 +193,8 @@ int main()
 		getch();
 		exit(1);
 	}
+
+	// Input loop for element data
 	while((notdone=='y'||notdone=='Y')&&chemstorage.good())
 	{
 		substance[elmnew].gettabdata();
@@ -190,7 +203,7 @@ int main()
 		cout<<"Wanna' enter more ??(Y(yes)orN(no))"<<endl;
 		cin>>notdone;
 	}
+	
 	chemstorage.close();
-	//getch();
 	return 0;
 }
